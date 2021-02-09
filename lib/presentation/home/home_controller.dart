@@ -1,7 +1,7 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
-import 'package:flutter_getx_base/data/remote/api/request/response/response_define.dart';
 import 'package:flutter_getx_base/data/remote/api/user_api_provider.dart';
 import 'package:get/get.dart';
+import 'package:flutter_getx_base/data/remote/api/response/response_define.dart';
 
 class HomeBinding extends Bindings {
   @override
