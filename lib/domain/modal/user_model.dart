@@ -21,4 +21,10 @@ class UserModel {
 
   @JsonProperty(name: 'picture')
   PictureModel pictureModel;
+
+  @JsonProperty(converterParams: {'format': 'MM-dd-yyyy H:m:s'})
+  DateTime lastPromotionDate = DateTime(2008, 05, 13, 22, 33, 44);
+
+  @JsonProperty(converterParams: {'format': 'MM/dd/yyyy'})
+  DateTime hireDate = DateTime(2003, 02, 28);
 }

@@ -1,27 +1,38 @@
-import 'package:dart_json_mapper/dart_json_mapper.dart';
-import 'package:flutter_getx_base/data/remote/api/user_api_provider.dart';
+import 'package:flutter_getx_base/domain/usecases/base/base_observer.dart';
+import 'package:flutter_getx_base/domain/usecases/get_user_use_case.dart';
 import 'package:get/get.dart';
-import 'package:flutter_getx_base/data/remote/api/response/response_define.dart';
 
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() {
-      Get.put(UserApiProvider());
-      return HomeController(apiProvider: Get.find());
+      Get.put(GetUserUseCase());
+      return HomeController();
     });
   }
 }
 
 class HomeController extends GetxController {
-  HomeController({this.apiProvider});
-  UserApiProvider apiProvider;
+  final GetUserUseCase _getUserUseCase = Get.find();
 
   @override
   void onInit() async {
     super.onInit();
-    Response response = await apiProvider.getUser();
-    UserResponse user = JsonMapper.deserialize(response.bodyString);
-    print(user.data);
+    _getUserUseCase.execute(
+      observer: Observer(
+        onSubscribe: () {},
+        onSuccess: (data) {
+          print(data);
+        },
+        onCompleted: () {},
+        onError: () {},
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _getUserUseCase.dispose();
+    super.dispose();
   }
 }
