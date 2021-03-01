@@ -1,3 +1,4 @@
+import 'package:flutter_getx_base/data/local/storage/storage_provider.dart';
 import 'package:flutter_getx_base/data/remote/api/random_user_api_provider.dart';
 import 'package:flutter_getx_base/data/user_repository_implement.dart';
 import 'package:flutter_getx_base/resources/colors/colors_manager.dart';
@@ -17,23 +18,28 @@ class AppBinding extends Bindings {
     injectColorsManager();
     injectStylesManager();
     injectApiProvider();
+    injectStorageProvider();
     injectRepository();
   }
 
   void injectAppConfig() {
-    Get.put(ColorsManager());
+    Get.put(appConfig);
   }
 
   void injectColorsManager() {
-    Get.put(appConfig);
+    Get.put(ColorsManager());
   }
 
   void injectStylesManager() {
     Get.put(StylesManager());
   }
 
+  void injectStorageProvider() {
+    Get.lazyPut<StorageProvider>(() => StorageProvider());
+  }
+
   void injectApiProvider() {
-    Get.put(RandomUserApiProvider());
+    Get.lazyPut<RandomUserApiProvider>(() => RandomUserApiProvider());
   }
 
   void injectRepository() {

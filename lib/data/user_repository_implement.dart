@@ -11,4 +11,9 @@ class UserRepositoryImpl extends UserRepository {
   Future<List<UserModel>> getUsers() {
     return _remoteDataSource.getUsers();
   }
+
+  @override
+  Future<void> saveUsername(String username) {
+    return _localDataSource.saveUsername(username);
+  }
 }
