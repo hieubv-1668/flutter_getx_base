@@ -8,7 +8,6 @@ import 'main_prd.mapper.g.dart' show initializeJsonMapper;
 void main() async {
   initializeJsonMapper();
   await GetStorage.init();
-
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MyApp(
