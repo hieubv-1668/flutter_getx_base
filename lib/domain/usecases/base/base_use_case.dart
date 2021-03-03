@@ -10,14 +10,7 @@ abstract class UseCase<T, Input> {
   }
 
   Future<Stream<T>> _buildUseCaseStream(Input input) async {
-    final StreamController<T> controller = StreamController();
-    try {
-      controller.add(await buildUseCase(input));
-      controller.close();
-    } catch (e) {
-      controller.addError(e);
-    }
-    return controller.stream;
+    return buildUseCase(input).asStream();
   }
 
   Future<T> buildUseCase(Input input);
@@ -79,6 +72,9 @@ class CompositeSubscription {
     assert(subscription != null, 'Subscription cannot be null');
     if (isDisposed) {
       throw ('This composite was disposed, try to use new instance instead');
+    }
+    if (_subscriptionsList.isNotEmpty) {
+      remove(_subscriptionsList.last);
     }
     _subscriptionsList.add(subscription);
     return subscription;

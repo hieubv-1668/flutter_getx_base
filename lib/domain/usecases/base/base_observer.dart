@@ -1,7 +1,7 @@
 class Observer<T> {
   Observer({
     Function onSubscribe,
-    Function onSuccess,
+    Function(T) onSuccess,
     Function onError,
     Function onCompleted,
   }) {

@@ -1,6 +1,7 @@
 import 'package:flutter_getx_base/data/remote/api/base_provider.dart';
 import 'package:flutter_getx_base/data/remote/api/response/base_response.dart';
 import 'package:flutter_getx_base/domain/modal/user_model.dart';
+import 'package:flutter_getx_base/utils/cores/pair.dart';
 
 class RandomUserApiProvider extends BaseProvider {
   @override
@@ -20,8 +21,9 @@ class RandomUserApiProvider extends BaseProvider {
     });
   }
 
-  Future<List<UserModel>> getUser() async {
-    return getDeserialize<BaseResponse<List<UserModel>>>('/api/?results=10')
-        .then((value) => value.data);
+  Future<Pair<List<UserModel>, int>> getUser(int page) async {
+    return getDeserialize<BaseResponse<List<UserModel>>>(
+            '/api/?page=$page&results=10')
+        .then((value) => Pair(value.data, page + 1));
   }
 }
