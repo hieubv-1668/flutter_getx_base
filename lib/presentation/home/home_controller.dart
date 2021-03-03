@@ -24,6 +24,7 @@ class HomeController extends BaseController {
   void onInit() {
     super.onInit();
     userListState.addListener(() {});
+
     getUserList();
   }
 
@@ -34,8 +35,7 @@ class HomeController extends BaseController {
           userListState.onLoading();
         },
         onSuccess: (data) {
-          userListState.onSuccess(data.first(),
-              nextPage: data.second() == 6 ? null : data.second());
+          userListState.onSuccess(data.first(), nextPage: data.second());
         },
         onError: (Exception e) {
           userListState.onError(e.toString());
