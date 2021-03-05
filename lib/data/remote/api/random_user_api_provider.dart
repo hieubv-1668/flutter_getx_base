@@ -8,6 +8,8 @@ class RandomUserApiProvider extends BaseProvider {
   void onInit() {
     super.onInit();
     httpClient.baseUrl = "https://randomuser.me";
+    httpClient.timeout = Duration(seconds: 15);
+    httpClient.errorSafety = false;
     httpClient.addRequestModifier((request) {
       request.headers['apikey'] = '12345678';
       return request;
@@ -21,7 +23,7 @@ class RandomUserApiProvider extends BaseProvider {
     });
   }
 
-  Future<Pair<List<UserModel>, int>> getUser(int page) async {
+  Future<Pair<List<UserModel>, int>> getUser(int page) {
     return getDeserialize<BaseResponse<List<UserModel>>>(
             '/api/?page=$page&results=10')
         .then((value) => Pair(value.data, page + 1));

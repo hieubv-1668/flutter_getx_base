@@ -10,12 +10,21 @@ abstract class UseCase<T, Input> {
   }
 
   Future<Stream<T>> _buildUseCaseStream(Input input) async {
-    return buildUseCase(input).asStream();
+    final controller = StreamController<T>();
+    try {
+      final value = await buildUseCase(input);
+      controller.add(value);
+      controller.close();
+    } catch (e) {
+      print(e);
+      controller.addError(e);
+    }
+    return controller.stream;
   }
 
   Future<T> buildUseCase(Input input);
 
-  void execute({Observer<T> observer, Input input}) async {
+  Future<void> execute({Observer<T> observer, Input input}) async {
     observer.onSubscribe();
     final StreamSubscription subscription =
         (await _buildUseCaseStream(input)).listen(
@@ -23,7 +32,9 @@ abstract class UseCase<T, Input> {
         observer.onSuccess(data);
       },
       onDone: observer.onCompleted(),
-      onError: (e) => observer.onError(e),
+      onError: (e) {
+        observer.onError(e);
+      },
     );
     _addSubscription(subscription);
   }

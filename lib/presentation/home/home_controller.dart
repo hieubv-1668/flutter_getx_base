@@ -3,6 +3,7 @@ import 'package:flutter_getx_base/domain/modal/user_model.dart';
 import 'package:flutter_getx_base/domain/usecases/base/base_observer.dart';
 import 'package:flutter_getx_base/domain/usecases/get_user_use_case.dart';
 import 'package:flutter_getx_base/presentation/base_controller.dart';
+import 'package:flutter_getx_base/utils/cores/dialog.dart';
 import 'package:get/get.dart';
 
 class HomeBinding extends Bindings {
@@ -23,13 +24,19 @@ class HomeController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    userListState.addListener(() {});
-
+    userListState.addListener(() async {
+      if (userListState.status.isError) {
+        bool result =
+            await showConfirmDialog(userListState.status.errorMessage);
+        print(result);
+      }
+    });
     getUserList();
   }
 
-  void getUserList({bool isRefreshing = false}) {
-    _getUserUseCase.execute(
+  Future<void> getUserList() async {
+    print(userListState.nextPage);
+    await _getUserUseCase.execute(
       observer: Observer(
         onSubscribe: () {
           userListState.onLoading();
@@ -41,7 +48,7 @@ class HomeController extends BaseController {
           userListState.onError(e.toString());
         },
       ),
-      input: GetUserUseCaseInput(1),
+      input: GetUserUseCaseInput(userListState.nextPage),
     );
   }
 

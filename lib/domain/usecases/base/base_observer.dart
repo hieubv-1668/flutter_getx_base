@@ -20,7 +20,7 @@ class Observer<T> {
 
   onSuccess(T) => _onSuccess?.call(T);
 
-  onError(Exception e) => _onError?.call(e);
+  onError(dynamic e) => _onError?.call(e);
 
   onCompleted() => _onCompleted?.call();
 }
