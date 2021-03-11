@@ -19,15 +19,15 @@ class HomeScreen extends GetWidget<HomeController> {
         ),
       ),
       body: controller.userListState.obx(
-        (state) => InfiniteScrollList(
+        (data) => InfiniteScrollList(
           state: controller.userListState,
           builder: (controller) {
             return ListView.separated(
               controller: controller,
               itemBuilder: (BuildContext context, int index) {
-                return _buildItem(context, state[index]);
+                return _buildItem(context, data[index]);
               },
-              itemCount: state.length,
+              itemCount: data.length,
               separatorBuilder: (BuildContext context, int index) {
                 return Divider();
               },

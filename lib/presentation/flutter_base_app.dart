@@ -4,7 +4,7 @@ import 'package:flutter_getx_base/resources/size/pixel_ratio.dart';
 import 'package:flutter_getx_base/resources/strings/localization_service.dart';
 import 'package:flutter_getx_base/utils/config/app_binding.dart';
 import 'package:flutter_getx_base/utils/config/app_config.dart';
-import 'package:flutter_getx_base/utils/config/routes_define.dart';
+import 'package:flutter_getx_base/utils/config/app_route.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';

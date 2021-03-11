@@ -15,15 +15,14 @@ class RandomUserApiProvider extends BaseProvider {
       return request;
     });
     httpClient.addAuthenticator((request) async {
-      final response = await get("http://yourapi/token");
-      final token = response.body['token'];
+      final token = "abcxyz";
       // Set the header
       request.headers['Authorization'] = "$token";
       return request;
     });
   }
 
-  Future<Pair<List<UserModel>, int>> getUser(int page) {
+  Future<Pair<List<UserModel>, int>> getUser(int page) async {
     return getDeserialize<BaseResponse<List<UserModel>>>(
             '/api/?page=$page&results=10')
         .then((value) => Pair(value.data, page + 1));

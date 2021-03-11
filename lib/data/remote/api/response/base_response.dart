@@ -9,20 +9,16 @@ class BaseResponse<T> {
             BaseResponse<List<UserModel>>.of(value)
       };
 
-  const BaseResponse({this.data, this.status, this.metaData});
+  const BaseResponse({this.data, this.metaData});
 
   @JsonProperty(name: 'results')
   final T data;
-
-  @JsonProperty(name: 'status')
-  final Status status;
 
   @JsonProperty(name: 'meta_data')
   final MetaData metaData;
 
   factory BaseResponse.of(BaseResponse<dynamic> other) => BaseResponse<T>(
         data: other.data,
-        status: other.status,
         metaData: other.metaData,
       );
 }
@@ -33,18 +29,4 @@ class MetaData {
 
   @JsonProperty(name: 'page')
   final int page;
-}
-
-@jsonSerializable
-class Status {
-  const Status({
-    this.messgae,
-    this.statusCode,
-  });
-
-  @JsonProperty(name: 'message')
-  final String messgae;
-
-  @JsonProperty(name: 'status')
-  final String statusCode;
 }

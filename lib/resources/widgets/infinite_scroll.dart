@@ -26,6 +26,7 @@ class InfiniteScrollList extends StatefulWidget {
 
 class _InfiniteScrollListState extends State<InfiniteScrollList> {
   final ScrollController _scrollController = ScrollController();
+  double currentMaxExtent = 0;
 
   @override
   void initState() {
@@ -33,11 +34,19 @@ class _InfiniteScrollListState extends State<InfiniteScrollList> {
     if (widget.onLoadMore != null) {
       _scrollController.addListener(() async {
         if (_scrollController.position.extentAfter < visibleThreshold &&
-            !widget.state.status.isLoadingMore) {
+            !widget.state.status.isLoadingMore &&
+            currentMaxExtent != _scrollController.position.maxScrollExtent) {
+          currentMaxExtent = _scrollController.position.maxScrollExtent;
           widget.onLoadMore.call();
         }
       });
     }
+
+    widget.state.addListener(() {
+      if (widget.state.status.isError) {
+        currentMaxExtent = 0;
+      }
+    });
   }
 
   @override
