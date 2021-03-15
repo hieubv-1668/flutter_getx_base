@@ -45,3 +45,4 @@ app.*.map.json
 lib/main_dev.mapper.g.dart
 lib/main_stg.mapper.g.dart
 lib/main_prd.mapper.g.dart
+test/widget_test.reflectable.dart
