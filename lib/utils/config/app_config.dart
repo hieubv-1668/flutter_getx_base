@@ -9,9 +9,18 @@ class AppConfig {
   final String baseURL;
   final String somethingKey;
 
-  factory AppConfig.fromDEV() => AppConfig(baseURL: '', somethingKey: '');
+  factory AppConfig.fromDEV() => AppConfig(
+        baseURL: '',
+        somethingKey: '',
+      );
 
-  factory AppConfig.fromSTG() => AppConfig(baseURL: '', somethingKey: '');
+  factory AppConfig.fromSTG() => AppConfig(
+        baseURL: '',
+        somethingKey: '',
+      );
 
-  factory AppConfig.fromPRD() => AppConfig(baseURL: '', somethingKey: '');
+  factory AppConfig.fromPRD() => AppConfig(
+        baseURL: '',
+        somethingKey: '',
+      );
 }

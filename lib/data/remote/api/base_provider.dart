@@ -31,7 +31,7 @@ class BaseProvider extends GetConnect {
     String contentType,
     Map<String, String> headers,
     Map<String, dynamic> query,
-    Decoder<T> decoder,
+    decoder,
     Progress uploadProgress,
   }) {
     return super
@@ -56,7 +56,7 @@ class BaseProvider extends GetConnect {
     String contentType,
     Map<String, String> headers,
     Map<String, dynamic> query,
-    Decoder<T> decoder,
+    decoder,
     Progress uploadProgress,
   }) {
     return super

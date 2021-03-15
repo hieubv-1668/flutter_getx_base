@@ -1,3 +1,4 @@
+import 'package:flutter_getx_base/data/remote/api/error/network_exception.dart';
 import 'package:flutter_getx_base/domain/base/process_state.dart';
 import 'package:flutter_getx_base/domain/modal/user_model.dart';
 import 'package:flutter_getx_base/domain/usecases/base/base_observer.dart';
@@ -42,9 +43,9 @@ class HomeController extends BaseController {
           userListState.onLoading();
         },
         onSuccess: (data) {
-          userListState.onSuccess(data.first(), nextPage: data.second());
+          userListState.onSuccess(data: data.first(), nextPage: data.second());
         },
-        onError: (Exception e) {
+        onError: (NetWorkException e) {
           userListState.onError(e.toString());
         },
       ),

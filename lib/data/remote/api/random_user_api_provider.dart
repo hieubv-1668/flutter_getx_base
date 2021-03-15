@@ -10,16 +10,6 @@ class RandomUserApiProvider extends BaseProvider {
     httpClient.baseUrl = "https://randomuser.me";
     httpClient.timeout = Duration(seconds: 15);
     httpClient.errorSafety = false;
-    httpClient.addRequestModifier((request) {
-      request.headers['apikey'] = '12345678';
-      return request;
-    });
-    httpClient.addAuthenticator((request) async {
-      final token = "abcxyz";
-      // Set the header
-      request.headers['Authorization'] = "$token";
-      return request;
-    });
   }
 
   Future<Pair<List<UserModel>, int>> getUser(int page) async {

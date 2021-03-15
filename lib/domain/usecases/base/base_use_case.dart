@@ -1,9 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter_getx_base/data/remote/api/error/network_exception.dart';
-import 'package:flutter_getx_base/utils/config/app_route.dart';
-import 'package:get/get.dart';
-
 import 'base_observer.dart';
 
 abstract class UseCase<T, Input> {

@@ -1,4 +1,5 @@
 import 'package:flutter_getx_base/data/local/storage/storage_provider.dart';
+import 'package:flutter_getx_base/data/remote/api/beng_kei_api_provider.dart';
 import 'package:flutter_getx_base/data/remote/api/random_user_api_provider.dart';
 import 'package:flutter_getx_base/data/user_repository_implement.dart';
 import 'package:flutter_getx_base/resources/colors/colors_manager.dart';
@@ -40,6 +41,7 @@ class AppBinding extends Bindings {
 
   void injectApiProvider() {
     Get.lazyPut<RandomUserApiProvider>(() => RandomUserApiProvider());
+    Get.lazyPut<BengKeiApiProvider>(() => BengKeiApiProvider());
   }
 
   void injectRepository() {

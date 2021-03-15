@@ -6,7 +6,11 @@ class ProcessState<T> extends GetxController with StateMixin<T> {
   int nextPage = inititalPage;
   T data;
 
-  void onSuccess(T data, {int nextPage}) {
+  ProcessState() {
+    change(null, status: RxStatus.empty());
+  }
+
+  void onSuccess({T data, int nextPage}) {
     this.nextPage = nextPage;
 
     if (status.isLoadingMore) {

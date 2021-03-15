@@ -14,7 +14,7 @@ class NetWorkException implements Exception {
       [this._message, this._statusText, this._prefix, this._status]);
 
   String toString() {
-    return "$_prefix(${_status?.code ?? ""}): ${getMessage()}";
+    return "$_prefix(${_status?.code ?? ""}) ${getMessage()}";
   }
 
   String getMessage() => _message ?? _statusText;

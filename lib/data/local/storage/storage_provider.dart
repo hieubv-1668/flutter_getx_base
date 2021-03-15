@@ -1,3 +1,5 @@
+import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:flutter_getx_base/domain/modal/token_model.dart';
 import 'package:get_storage/get_storage.dart';
 
 class StorageProvider {
@@ -7,6 +9,12 @@ class StorageProvider {
 
   Future<void> saveUsername(String username) =>
       _getStorage.write(StorageKey.keyUser, username);
+
+  TokenModel getToken() =>
+      JsonMapper.fromJson<TokenModel>(_getStorage.read(StorageKey.keyToken));
+
+  Future<void> saveToken(TokenModel token) =>
+      _getStorage.write(StorageKey.keyToken, JsonMapper.toJson(token));
 }
 
 class StorageKey {
