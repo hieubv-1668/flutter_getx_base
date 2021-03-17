@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:flutter_getx_base/data/remote/api/error/network_exception.dart';
 import 'package:get/get.dart';
@@ -9,10 +7,7 @@ class BaseProvider extends GetConnect {
       {Map<String, String> headers,
       String contentType,
       Map<String, dynamic> query,
-      decoder}) {
-    final response = Response(
-        statusCode: 401,
-        bodyString: '{"status":{"message":"Lỗi rồi nè!", "status": 401}}');
+      Decoder decoder}) {
     return super
         .get(url,
             headers: headers,
@@ -20,8 +15,7 @@ class BaseProvider extends GetConnect {
             query: query,
             decoder: decoder)
         .then(
-          (value) => _mapTpoResponse<T>(value),
-          onError: (e) => throw NetWorkException.fromException(e),
+          (value) => _mapToResponse<T>(value),
         );
   }
 
@@ -31,7 +25,7 @@ class BaseProvider extends GetConnect {
     String contentType,
     Map<String, String> headers,
     Map<String, dynamic> query,
-    decoder,
+    Decoder decoder,
     Progress uploadProgress,
   }) {
     return super
@@ -45,8 +39,7 @@ class BaseProvider extends GetConnect {
           uploadProgress: uploadProgress,
         )
         .then(
-          (value) => _mapTpoResponse<T>(value),
-          onError: (e) => throw NetWorkException.fromException(e),
+          (value) => _mapToResponse<T>(value),
         );
   }
 
@@ -56,7 +49,7 @@ class BaseProvider extends GetConnect {
     String contentType,
     Map<String, String> headers,
     Map<String, dynamic> query,
-    decoder,
+    Decoder decoder,
     Progress uploadProgress,
   }) {
     return super
@@ -70,12 +63,11 @@ class BaseProvider extends GetConnect {
           uploadProgress: uploadProgress,
         )
         .then(
-          (value) => _mapTpoResponse<T>(value),
-          onError: (e) => throw NetWorkException.fromException(e),
+          (value) => _mapToResponse<T>(value),
         );
   }
 
-  Future<T> _mapTpoResponse<T>(Response response) async {
+  Future<T> _mapToResponse<T>(Response response) async {
     if (response.status.isOk) {
       return T != dynamic ? JsonMapper.deserialize<T>(response.bodyString) : T;
     } else

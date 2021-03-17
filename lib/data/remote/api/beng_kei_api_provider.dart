@@ -6,8 +6,10 @@ import 'package:flutter_getx_base/data/remote/api/base_provider.dart';
 import 'package:flutter_getx_base/data/remote/api/request/login_request.dart';
 import 'package:flutter_getx_base/data/remote/api/request/refresh_token_request.dart';
 import 'package:flutter_getx_base/data/remote/api/request/register_request.dart';
-import 'package:flutter_getx_base/data/user_repository_implement.dart';
+import 'package:flutter_getx_base/data/remote/api/response/bengkei_base_response.dart';
+import 'package:flutter_getx_base/domain/modal/bengkei_user_model.dart';
 import 'package:flutter_getx_base/domain/modal/token_model.dart';
+import 'package:flutter_getx_base/domain/service/auth_service.dart';
 import 'package:get/get.dart';
 
 class BengKeiApiProvider extends BaseProvider {
@@ -15,19 +17,19 @@ class BengKeiApiProvider extends BaseProvider {
   void onInit() {
     httpClient.baseUrl = "http://bengkelrobot.net:8002";
     httpClient.timeout = Duration(seconds: 15);
-    httpClient.errorSafety = false;
     httpClient.maxAuthRetries = 3;
 
     httpClient.addAuthenticator((request) async {
-      var newToken = await Get.find<UserRepositoryImpl>().refreshToken();
+      var newToken = await Get.find<AuthService>().refreshToken();
       request.headers['Authorization'] = 'Bearer ${newToken.accessToken}';
       return request;
     });
 
     httpClient.addRequestModifier((request) async {
-      var userToken = Get.find<UserRepositoryImpl>().getToken();
-      if (userToken != null) {
-        request.headers['Authorization'] = 'Bearer ${userToken.accessToken}';
+      var authService = Get.find<AuthService>();
+      if (authService.tokenModel != null) {
+        request.headers['Authorization'] =
+            'Bearer ${authService.tokenModel.accessToken}';
       } else {
         request.headers['Authorization'] = 'Basic ' +
             base64Encode(
@@ -53,18 +55,9 @@ class BengKeiApiProvider extends BaseProvider {
     );
   }
 
-  Future<TokenModel> refreshToken(RefreshTokenRequest request) {
-    return postDeserialize<TokenModel>(
-      '/oauth/token',
-      FormData(
-        JsonMapper.toMap(request),
-      ),
-    );
-  }
-
-  Future<TokenModel> getListUser() {
-    return getDeserialize(
+  Future<List<BengKeiUserModel>> getListUser() {
+    return getDeserialize<BengKeiBaseResponse<List<BengKeiUserModel>>>(
       '/users/user',
-    );
+    ).then((value) => value.data);
   }
 }

@@ -7,7 +7,9 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 
 class LoginScreen extends BaseScaffold<LoginController> {
   @override
-  String get tilte => 'Login';
+  String title() {
+    return 'Login';
+  }
 
   @override
   Widget buildChild(BuildContext context) {

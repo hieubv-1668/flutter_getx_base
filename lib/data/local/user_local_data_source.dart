@@ -13,4 +13,6 @@ class UserLocalDataSource {
   TokenModel getToken() => _storageProvider.getToken();
 
   Future<void> saveToken(TokenModel token) => _storageProvider.saveToken(token);
+
+  void logout() => _storageProvider.clearToken();
 }

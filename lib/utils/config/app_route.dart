@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_getx_base/data/local/storage/storage_provider.dart';
+import 'package:flutter_getx_base/domain/service/auth_service.dart';
 import 'package:flutter_getx_base/presentation/home/home_controller.dart';
 import 'package:flutter_getx_base/presentation/home/home_screen.dart';
+import 'package:flutter_getx_base/presentation/loadmoreuser/loadmore_user_controller.dart';
+import 'package:flutter_getx_base/presentation/loadmoreuser/loadmore_user_screen.dart';
 import 'package:flutter_getx_base/presentation/login/login_controller.dart';
 import 'package:flutter_getx_base/presentation/login/login_screen.dart';
+import 'package:flutter_getx_base/presentation/refreshtoken/refresh_token_controller.dart';
+import 'package:flutter_getx_base/presentation/refreshtoken/refresh_token_screen.dart';
 import 'package:get/get.dart';
 
 class AppRoute {
@@ -11,6 +15,8 @@ class AppRoute {
   static String routeLoginScreen() => '/login';
   static String routeRegisterScreen() => '/register';
   static String routeSearchScreen() => '/search';
+  static String routeLoadmoreScreen() => '/loadmore';
+  static String routeRefreshTokenScreen() => '/refresh_token';
 
   static List<GetPage> generateGetPages() => [
         GetPage(
@@ -31,14 +37,27 @@ class AppRoute {
           name: routeLoginScreen(),
           page: () => LoginScreen(),
           binding: LoginBinding(),
-        )
+          transition: Transition.cupertino,
+        ),
+        GetPage(
+          name: routeLoadmoreScreen(),
+          page: () => LoadmoreScreen(),
+          binding: LoadmoreBinding(),
+          transition: Transition.cupertino,
+        ),
+        GetPage(
+          name: routeRefreshTokenScreen(),
+          page: () => RefreshTokenScreen(),
+          binding: RefreshTokenBinding(),
+          transition: Transition.cupertino,
+        ),
       ];
 }
 
 class AuthenMiddleware extends GetMiddleware {
   @override
   RouteSettings redirect(String route, {Object arguments}) {
-    var isLogged = Get.find<StorageProvider>().getToken() != null;
+    var isLogged = Get.find<AuthService>().hasLogin();
     return isLogged
         ? null
         : RouteSettings(

@@ -3,6 +3,7 @@ import 'package:flutter_getx_base/data/remote/api/request/refresh_token_request.
 import 'package:flutter_getx_base/data/remote/api/request/login_request.dart';
 import 'package:flutter_getx_base/data/remote/api/request/register_request.dart';
 import 'package:flutter_getx_base/data/remote/user_remote_data_source.dart';
+import 'package:flutter_getx_base/domain/modal/bengkei_user_model.dart';
 import 'package:flutter_getx_base/domain/modal/token_model.dart';
 import 'package:flutter_getx_base/domain/modal/user_model.dart';
 import 'package:flutter_getx_base/domain/repositories/user_repository.dart';
@@ -45,14 +46,23 @@ class UserRepositoryImpl extends UserRepository {
     return _remoteDataSource
         .refreshToken(
             RefreshTokenRequest('refresh_token', currentToken.refreshToken))
-        .then((value) {
-      saveToken(value);
-      return value;
+        .then((token) {
+      return saveToken(token).then((_) => token);
     });
   }
 
   @override
   Future<void> register(RegisterRequest request) {
     return _remoteDataSource.register(request);
+  }
+
+  @override
+  Future<List<BengKeiUserModel>> getBengUserList() {
+    return _remoteDataSource.getBengkeiUserList();
+  }
+
+  @override
+  void logout() {
+    return _localDataSource.logout();
   }
 }

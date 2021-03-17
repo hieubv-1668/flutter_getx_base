@@ -1,62 +1,30 @@
-import 'package:flutter_getx_base/data/remote/api/error/network_exception.dart';
-import 'package:flutter_getx_base/domain/base/process_state.dart';
-import 'package:flutter_getx_base/domain/modal/user_model.dart';
-import 'package:flutter_getx_base/domain/usecases/base/base_observer.dart';
-import 'package:flutter_getx_base/domain/usecases/get_user_use_case.dart';
+import 'package:flutter_getx_base/domain/usecases/logout_use_case.dart';
 import 'package:flutter_getx_base/presentation/base_controller.dart';
-import 'package:flutter_getx_base/utils/cores/dialog.dart';
+import 'package:flutter_getx_base/utils/config/app_route.dart';
 import 'package:get/get.dart';
 
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() {
-      Get.put(GetUserUseCase(Get.find()));
-      return HomeController();
-    });
+    Get.lazyPut(() => LogoutUseCase(Get.find()));
+    Get.lazyPut<HomeController>(() => HomeController(Get.find()));
   }
 }
 
 class HomeController extends BaseController {
-  final GetUserUseCase _getUserUseCase = Get.find();
+  HomeController(this._logoutUseCase);
 
-  final ProcessState<List<UserModel>> userListState = ProcessState();
+  final LogoutUseCase _logoutUseCase;
 
-  @override
-  void onInit() {
-    super.onInit();
-    userListState.addListener(() async {
-      if (userListState.status.isError) {
-        bool result =
-            await showConfirmDialog(userListState.status.errorMessage);
-        print(result);
-      }
-    });
-    getUserList();
+  void goToLoadMoreScreen() {
+    Get.toNamed(AppRoute.routeLoadmoreScreen());
   }
 
-  Future<void> getUserList() async {
-    print(userListState.nextPage);
-    await _getUserUseCase.execute(
-      observer: Observer(
-        onSubscribe: () {
-          userListState.onLoading();
-        },
-        onSuccess: (data) {
-          userListState.onSuccess(data: data.first(), nextPage: data.second());
-        },
-        onError: (NetWorkException e) {
-          userListState.onError(e.toString());
-        },
-      ),
-      input: GetUserUseCaseInput(userListState.nextPage),
-    );
+  void goToRefreshTokenScreen() {
+    Get.toNamed(AppRoute.routeRefreshTokenScreen());
   }
 
-  @override
-  void dispose() {
-    _getUserUseCase.dispose();
-    userListState.dispose();
-    super.dispose();
+  void onLogout() {
+    _logoutUseCase.execute();
   }
 }

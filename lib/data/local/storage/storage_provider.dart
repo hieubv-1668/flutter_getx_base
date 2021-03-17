@@ -15,6 +15,12 @@ class StorageProvider {
 
   Future<void> saveToken(TokenModel token) =>
       _getStorage.write(StorageKey.keyToken, JsonMapper.toJson(token));
+
+  Future<void> clearToken() => _getStorage.remove(StorageKey.keyToken);
+
+  void addTokenListener(Function(TokenModel) listener) => _getStorage.listenKey(
+      StorageKey.keyToken,
+      (token) => listener.call(JsonMapper.fromJson<TokenModel>(token)));
 }
 
 class StorageKey {

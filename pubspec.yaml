@@ -23,8 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  get: ^4.0.0-nullsafety.2
-  get_storage: ^2.0.1
+  get: ^3.26.0
+  get_storage: ^1.4.0
   flutter_screenutil: ^4.0.2+5
   dart_json_mapper: ^1.7.12
 

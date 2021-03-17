@@ -10,9 +10,8 @@ import 'package:get/get.dart';
 class LoginBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() {
-      return LoginController(LoginUseCase(Get.find()));
-    });
+    Get.lazyPut(() => LoginUseCase(Get.find()));
+    Get.lazyPut(() => LoginController(Get.find()));
   }
 }
 

@@ -24,15 +24,15 @@ abstract class UseCase<T, Input> {
   Future<T> buildUseCase(Input input);
 
   Future<void> execute({Observer<T> observer, Input input}) async {
-    observer.onSubscribe();
+    observer?.onSubscribe();
     final StreamSubscription subscription =
         (await _buildUseCaseStream(input)).listen(
       (data) {
-        observer.onSuccess(data);
+        observer?.onSuccess(data);
       },
-      onDone: observer.onCompleted(),
+      onDone: observer?.onCompleted(),
       onError: (e) {
-        observer.onError(e);
+        observer?.onError(e);
       },
     );
     _addSubscription(subscription);

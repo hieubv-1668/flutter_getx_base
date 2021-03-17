@@ -1,5 +1,6 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:flutter_getx_base/data/remote/api/response/base_error_response.dart';
+import 'package:get/get.dart';
 import 'package:get/get_connect.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
@@ -45,15 +46,15 @@ class NetWorkException implements Exception {
 
   factory NetWorkException.fromException(Exception exception) {
     if (exception is UnauthorizedException) {
-      throw AuthenException(
+      return AuthenException(
         exception.toString(),
         null,
         HttpStatus(HttpStatus.unauthorized),
       );
     } else if (exception is GetHttpException) {
-      throw ConnectException(exception.toString());
+      return ConnectException(exception.toString());
     }
-    throw UnKnownException(exception.toString());
+    return UnKnownException(exception.toString());
   }
 }
 

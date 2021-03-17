@@ -1,7 +1,9 @@
 import 'package:flutter_getx_base/data/local/storage/storage_provider.dart';
 import 'package:flutter_getx_base/data/remote/api/beng_kei_api_provider.dart';
 import 'package:flutter_getx_base/data/remote/api/random_user_api_provider.dart';
+import 'package:flutter_getx_base/data/remote/api/refresh_token_api_provider.dart';
 import 'package:flutter_getx_base/data/user_repository_implement.dart';
+import 'package:flutter_getx_base/domain/service/auth_service.dart';
 import 'package:flutter_getx_base/resources/colors/colors_manager.dart';
 import 'package:flutter_getx_base/resources/styles/styles_manager.dart';
 import 'package:get/get.dart';
@@ -21,6 +23,7 @@ class AppBinding extends Bindings {
     injectApiProvider();
     injectStorageProvider();
     injectRepository();
+    injectService();
   }
 
   void injectAppConfig() {
@@ -36,15 +39,20 @@ class AppBinding extends Bindings {
   }
 
   void injectStorageProvider() {
-    Get.lazyPut<StorageProvider>(() => StorageProvider());
+    Get.put(StorageProvider());
   }
 
   void injectApiProvider() {
-    Get.lazyPut<RandomUserApiProvider>(() => RandomUserApiProvider());
-    Get.lazyPut<BengKeiApiProvider>(() => BengKeiApiProvider());
+    Get.lazyPut(() => RandomUserApiProvider(), fenix: true);
+    Get.lazyPut(() => BengKeiApiProvider(), fenix: true);
+    Get.lazyPut(() => RefreshTokenApiProvider(), fenix: true);
   }
 
   void injectRepository() {
-    Get.lazyPut<UserRepositoryImpl>(() => UserRepositoryImpl());
+    Get.put(UserRepositoryImpl());
+  }
+
+  void injectService() {
+    Get.put(AuthService());
   }
 }

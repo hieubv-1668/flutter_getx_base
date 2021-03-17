@@ -9,7 +9,6 @@ class RandomUserApiProvider extends BaseProvider {
     super.onInit();
     httpClient.baseUrl = "https://randomuser.me";
     httpClient.timeout = Duration(seconds: 15);
-    httpClient.errorSafety = false;
   }
 
   Future<Pair<List<UserModel>, int>> getUser(int page) async {
